@@ -1,0 +1,49 @@
+CREATE TABLE `Modul2`.`Passengers` (
+  `passenger_id` VARCHAR(5) NOT NULL,
+  `passenger_full_name` VARCHAR(100) NOT NULL,
+  `passenger_email` VARCHAR(100) NOT NULL,
+  `passenger_phone` VARCHAR(15) NOT NULL,
+  `passenger_cccd` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`passenger_id`));
+  
+  CREATE TABLE `Modul2`.`Trains` (
+  `train_id` VARCHAR(5) NOT NULL,
+  `train_name` VARCHAR(100) NOT NULL,
+  `train_type` VARCHAR(10) NOT NULL,
+  `total_seats` INT NOT NULL,
+  PRIMARY KEY (`train_id`));
+  
+  CREATE TABLE `Modul2`.`Tikets` (
+  `ticket_id` VARCHAR(5) NOT NULL,
+  `passenger_id` VARCHAR(5) NOT NULL,
+  `train _id` VARCHAR(5) NOT NULL,
+  `departure_date` DATETIME NOT NULL,
+  `seat_number` VARCHAR(10) NULL,
+  `ticket_price` DECIMAL(10,2) NULL,
+  PRIMARY KEY (`ticket_id`),
+  INDEX `ticket_pass_idx` (`passenger_id` ASC) VISIBLE,
+  INDEX `train_pass_idx` (`train _id` ASC) VISIBLE,
+  CONSTRAINT `ticket_pass`
+    FOREIGN KEY (`passenger_id`)
+    REFERENCES `Modul2`.`Passengers` (`passenger_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `train_pass`
+    FOREIGN KEY (`train _id`)
+    REFERENCES `Modul2`.`Trains` (`train_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+    
+CREATE TABLE `Modul2`.`PaymentTransaction` (
+  `transaction_id` VARCHAR(5) NOT NULL,
+  `ticket_id` VARCHAR(5) NOT NULL,
+  `peyme nt_menthod` VARCHAR(50) NOT NULL,
+  `transaction_date` DATETIME NOT NULL,
+  `amount` DECIMAL(10,2) NULL,
+  PRIMARY KEY (`transaction_id`),
+  INDEX `pay_ticket_idx` (`ticket_id` ASC) VISIBLE,
+  CONSTRAINT `pay_ticket`
+    FOREIGN KEY (`ticket_id`)
+    REFERENCES `Modul2`.`Tikets` (`ticket_id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
